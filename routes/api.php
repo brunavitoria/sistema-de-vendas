@@ -19,4 +19,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('vendedores', [ApiController::class, 'readVendedores']);
-Route::post('vendedores', [ApiController::class, 'createVendedor']);
+Route::post('vendedor', [ApiController::class, 'createVendedor']);
+Route::get('vendas', [ApiController::class, 'readVendas']);
+Route::post('venda', [ApiController::class, 'createVenda']);
