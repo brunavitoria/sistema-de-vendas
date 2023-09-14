@@ -15,7 +15,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('vendas:relatorio-diario')
+            ->dailyAt('23:59')
+            ->timezone('America/Sao_Paulo')
+            ->withoutOverlapping();
     }
 
     /**
