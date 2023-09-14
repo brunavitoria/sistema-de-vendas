@@ -16,7 +16,7 @@ class Vendedor extends Model
 
     public function getTotalComissaoAttribute()
     {
-        return $this->vendas->sum('comissao');
+        return $this->vendas()->sum('comissao');
     }
 
     public function vendas()

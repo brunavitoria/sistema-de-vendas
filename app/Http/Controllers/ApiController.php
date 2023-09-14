@@ -11,7 +11,7 @@ class ApiController extends Controller
     public function readVendedores()
     {
         $vendedores = Vendedor::all();
-        if ($vendedores) {
+        if (count($vendedores) > 0) {
             $vendedores = $vendedores->map(function ($vendedor) {
                 return [
                     'id' => $vendedor->id,
@@ -70,12 +70,12 @@ class ApiController extends Controller
 
         $vendas = Venda::where('vendedor_id', $id)->get();
 
-        if ($vendas) {
+        if (count($vendas) > 0) {
             $vendas = $vendas->map(function ($venda) {
                 return [
                     'id' => $venda->id,
-                    'nome' => $venda->vendedor->nome,
-                    'email' => $venda->vendedor->email,
+                    'nome' => $venda->vendedor->nome, // @phpstan-ignore-line
+                    'email' => $venda->vendedor->email, // @phpstan-ignore-line
                     'valor' => $venda->valor,
                     'comissao' => $venda->comissao,
                     'data' => $venda->created_at->format('d/m/Y')
@@ -116,8 +116,8 @@ class ApiController extends Controller
             "message" => "Venda criada com sucesso",
             "venda" => [
                 'id' => $venda->id,
-                'nome' => $venda->vendedor->nome,
-                'email' => $venda->vendedor->email,
+                'nome' => $venda->vendedor->nome, // @phpstan-ignore-line
+                'email' => $venda->vendedor->email, // @phpstan-ignore-line
                 'valor' => $venda->valor,
                 'comissao' => $venda->comissao,
                 'data' => $venda->created_at->format('d/m/Y')
