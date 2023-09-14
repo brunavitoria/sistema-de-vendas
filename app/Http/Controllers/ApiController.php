@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Venda;
+use App\Models\Vendedor;
 use Illuminate\Http\Request;
 
 class ApiController extends Controller
