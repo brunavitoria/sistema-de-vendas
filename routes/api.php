@@ -3,6 +3,7 @@
 use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,5 +22,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('vendedores', [ApiController::class, 'readVendedores']);
 Route::post('vendedor', [ApiController::class, 'createVendedor']);
-Route::get('vendas', [ApiController::class, 'readVendas']);
+Route::get('vendas/{id}', [ApiController::class, 'readVendas']);
 Route::post('venda', [ApiController::class, 'createVenda']);

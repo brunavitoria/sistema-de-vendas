@@ -32,10 +32,18 @@ class ApiController extends Controller
 
     public function createVendedor(Request $request)
     {
-        $request->validate([
-            'nome' => 'required',
-            'email' => 'required|email|unique:vendedores,email',
-        ]);
+        if (!$request->nome || !$request->email) {
+            return response()->json([
+                "message" => "Nome e email são obrigatórios"
+            ], 400);
+        }
+
+        $vendedorUnico = Vendedor::where('email', $request->email)->first();
+        if ($vendedorUnico) {
+            return response()->json([
+                "message" => "Email já cadastrado"
+            ], 400);
+        }
 
         $vendedor = new Vendedor;
         $vendedor->nome = $request->nome;
@@ -52,13 +60,16 @@ class ApiController extends Controller
         ], 201);
     }
 
-    public function readVendas(Request $request)
+    public function readVendas($id = null)
     {
-        $request->validate([
-            'vendedor_id' => 'required|integer|exists:vendedores,id',
-        ]);
+        if (!$id) {
+            return response()->json([
+                "message" => "O id do vendedor é obrigatório"
+            ], 404);
+        }
 
-        $vendas = Venda::where('vendedor_id', $request->id)->get();
+        $vendas = Venda::where('vendedor_id', $id)->get();
+
         if ($vendas) {
             $vendas = $vendas->map(function ($venda) {
                 return [
@@ -70,19 +81,31 @@ class ApiController extends Controller
                     'data' => $venda->created_at->format('d/m/Y')
                 ];
             });
+            return response()->json([
+                "message" => "Vendas encontradas",
+                "vendas" => $vendas
+            ], 200);
         }
 
         return response()->json([
-            "message" => "Vendedor não encontrado"
+            "message" => "Vendas não encontradas"
         ], 404);
     }
 
     public function createVenda(Request $request)
     {
-        $request->validate([
-            'valor' => 'required|numeric',
-            'vendedor_id' => 'required|integer|exists:vendedores,id',
-        ]);
+        if (!$request->valor || !$request->vendedor_id) {
+            return response()->json([
+                "message" => "Valor e id do vendedor são obrigatórios"
+            ], 400);
+        }
+
+        $vendedor = Vendedor::find($request->vendedor_id);
+        if (!$vendedor) {
+            return response()->json([
+                "message" => "Vendedor não encontrado"
+            ], 404);
+        }
 
         $venda = new Venda;
         $venda->valor = $request->valor;
