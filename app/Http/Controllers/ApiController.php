@@ -8,15 +8,31 @@ class ApiController extends Controller
 {
     public function readVendedores()
     {
-        $vendedores = Vendedor::all()->toJson(JSON_PRETTY_PRINT);
-        return response($vendedores, 200);
+        $vendedores = Vendedor::all();
+        if ($vendedores) {
+            $vendedores = $vendedores->map(function ($vendedor) {
+                return [
+                    'id' => $vendedor->id,
+                    'nome' => $vendedor->nome,
+                    'email' => $vendedor->email,
+                    'comissao' => $vendedor->total_comissao
+                ];
+            });
+            return response()->json([
+                "message" => "Vendedores encontrados",
+                "vendedores" => $vendedores
+            ], 200);
+        }
+        return response()->json([
+            "message" => "Nenhum vendedor encontrado"
+        ], 404);
     }
 
     public function createVendedor(Request $request)
     {
         $request->validate([
             'nome' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:vendedores,email',
         ]);
 
         $vendedor = new Vendedor;
@@ -26,7 +42,11 @@ class ApiController extends Controller
 
         return response()->json([
             "message" => "Vendedor criado com sucesso",
-            "vendedor" => $vendedor
+            "vendedor" => [
+                'id' => $vendedor->id,
+                'nome' => $vendedor->nome,
+                'email' => $vendedor->email
+            ]
         ], 201);
     }
 
@@ -35,6 +55,7 @@ class ApiController extends Controller
         $request->validate([
             'vendedor_id' => 'required|integer|exists:vendedores,id',
         ]);
+
         $vendas = Venda::where('vendedor_id', $request->id)->get();
         if ($vendas) {
             $vendas = $vendas->map(function ($venda) {
