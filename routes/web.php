@@ -23,8 +23,6 @@ Route::prefix('/vendedores')->group(function () {
 });
 
 Route::prefix('/vendas')->group(function () {
-    Route::get('/', 'App\Http\Controllers\VendaController@lista')->name('vendas');
-    Route::get('/{id}', 'App\Http\Controllers\VendaController@vendedor')->name('vendas.vendedor');
-    Route::post('/novo', 'App\Http\Controllers\VendaController@novo')->name('vendas.novo');
-    Route::post('/salvar', 'App\Http\Controllers\VendaController@salvar')->name('vendas.salvar');
+    Route::get('/', 'App\Http\Controllers\VendaController@index')->name('vendas');
+    Route::get('/novo', 'App\Http\Controllers\VendaController@novo')->name('vendas.novo');
 });

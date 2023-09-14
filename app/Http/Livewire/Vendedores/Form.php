@@ -3,9 +3,6 @@
 namespace App\Http\Livewire\Vendedores;
 
 use App\Models\Vendedor;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
 class Form extends Component
