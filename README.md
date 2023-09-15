@@ -55,7 +55,7 @@ cp .env.example .env
 ```
 9. Acesse o sistema no navegador
 ```bash
-http://localhost:8000
+http://localhost
 ```
 ## Rotas da API
 - [x] GET /api/vendedores (retorna todos os vendedores cadastrados)

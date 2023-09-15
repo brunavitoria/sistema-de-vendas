@@ -2,18 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ApiController;
+use App\Models\Vendedor;
 
 class VendedorController extends Controller
 {
     public function index()
     {
-        $request = Request::create('/api/vendedores', 'GET');
-        $response = Route::dispatch($request);
-
-        $vendedores = json_decode($response->getContent())->vendedores;
+        $vendedores = Vendedor::all();
 
         return view('vendedores.index', compact('vendedores'));
     }
