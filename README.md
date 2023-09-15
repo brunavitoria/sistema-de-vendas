@@ -20,43 +20,38 @@
 - [x] Composer ^1.0
 - [x] MySQL ^5.7
 
-## Instalação
+## Instalação utilizando o sail
 1. Clone o repositório
 ```bash
 git clone https://github.com/brunavitoria/sistema-de-vendas.git
 ```
-2. Instale as dependências
+2. Navegue até a pasta do projeto
+```bash
+cd sistema-de-vendas
+```
+3. Instale as dependências
 ```bash
 composer install
 ```
-3. Crie um arquivo .env
+4. Copie o arquivo .env.example para .env
 ```bash
 cp .env.example .env
 ```
-4. Gere uma nova chave para a aplicação
+5. Execute o comando Sail de inicialização
 ```bash
-php artisan key:generate
+./vendor/bin/sail install
 ```
-5. Configure o banco de dados no arquivo .env
+6. Inicie os contêineres do Sail
 ```bash
-DB_CONNECTION=mysql
-DB_HOST=
-DB_PORT=
-DB_DATABASE=
-DB_USERNAME=
-DB_PASSWORD=
+./vendor/bin/sail up -d
 ```
-6. Execute as migrations
+7. Execute as migrations
 ```bash
-php artisan migrate
+./vendor/bin/sail artisan migrate
 ```
-7. Execute o npm
+8. Execute o npm
 ```bash
-npm install && npm run dev
-```
-8. Execute o servidor
-```bash
-php artisan serve
+./vendor/bin/sail npm install && ./vendor/bin/sail npm run dev
 ```
 9. Acesse o sistema no navegador
 ```bash
